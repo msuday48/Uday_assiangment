@@ -1,36 +1,90 @@
-Instructions to Run Java Selenium Code
-Prerequisites:
+# Running the AmazonAutomation Java Selenium Script
 
-Ensure you have Java Development Kit (JDK) installed on your system.
+To run the Java Selenium script locally, follow these steps:
 
-Install an Integrated Development Environment (IDE)  Eclipse.
+## Prerequisites
 
-Download and set up the latest version of Selenium WebDriver.
+1. **Install Java**: Ensure you have the Java Development Kit (JDK) installed. You can download it from [Oracle's official website](https://www.oracle.com/java/technologies/javase-downloads.html).
+2. **Set up Selenium**: Add Selenium Java bindings to your project. You can get them from [Selenium's official website](https://www.selenium.dev/downloads/).
+3. **Install ChromeDriver**: Download ChromeDriver from [ChromeDriver's official website](https://sites.google.com/a/chromium.org/chromedriver/downloads) and place it in a known directory.
+4. **Configure Build Tool**: If you're using a build tool like Maven or Gradle, include Selenium dependencies in your `pom.xml` or `build.gradle` file.
 
-Install Google Chrome browser and download the corresponding ChromeDriver.
+## Steps
 
-Setup:
+1. **Clone the Repository**:
+    
+    git clone https://github.com/msuday48/Uday_assiangment.git
+    cd your-repo
 
-Clone or download the project repository from GitHub.
 
-Open the project in your preferred IDE.
+2. **Open the Project**: Open the project in your preferred Integrated Development Environment (IDE) (e.g., IntelliJ IDEA, Eclipse).
 
-Configure Dependencies:
+3. **Build the Project**: Build the project to ensure all dependencies are properly configured.
 
-Add Selenium WebDriver dependencies to your project.
+Setting up the Project
+1. Install Dependencies
+This project uses Maven to manage dependencies. Use the following command to install required dependencies, including Selenium WebDriver:
 
-If using Maven, add the following dependency in the pom.xml file:
+mvn clean install
+Ensure the pom.xml contains the following dependencies for Selenium:
 
+add this Dependencies to pom.xml
+
+xml
+Copy code
+<dependencies>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version> 4.25.0</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.bonigarcia</groupId>
+        <artifactId>webdrivermanager</artifactId>
+        <version>5.9.2</version>
+    </dependency>
+</dependencies>
+
+Alternatively, you can use WebDriverManager to automate the setup of ChromeDriver in your pom.xml:
+
+<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
 <dependency>
-    <groupId>org.seleniumhq.selenium</groupId>
-    <artifactId>selenium-java</artifactId>
-    <version>4.23.1</version>
-<dependency>
+    <groupId>io.github.bonigarcia</groupId>
+    <artifactId>webdrivermanager</artifactId>
+    <version>5.9.2</version>
+</dependency>
 
-Download the ChromeDriver executable from ChromeDriver and place it in a suitable directory.
+In the code, add:
+WebDriverManager.chromedriver().setup();
 
-Set Up WebDriver Path:
+4. **Set Up ChromeDriver**: Ensure that ChromeDriver is in your system’s PATH or specify its location in the script. For example:
+   
+    System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver");
 
-Set the path to the ChromeDriver executable in your code:
 
-System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver");
+
+5. **Run the Script**: Execute the Selenium script using your IDE eclipse or intellj
+
+To execute the script, follow these steps:
+
+Open the project in an IDE (e.g., IntelliJ IDEA, Eclipse).
+
+Navigate to the AmazonAutomation.java file located in the src/main/java/Automation_task directory.
+
+Right-click on the file and select "Run" to start the automation script. Alternatively, 
+
+To run it via Maven:
+mvn test
+
+
+
+The script will:
+
+Open a Chrome browser.
+Navigate to Amazon India.
+Search for "Wrist Watches".
+Apply the "Leather" material and "Fastrack" brand filters.
+Select a product.
+Add the selected product to the cart.
+Optionally handle a protection plan popup if it appears.
+Verify the item was added to the cart.
