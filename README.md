@@ -30,32 +30,6 @@ Ensure the pom.xml contains the following dependencies for Selenium:
 
 add this Dependencies to pom.xml
 
-xml
-Copy code
-<dependencies>
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version> 4.25.0</version>
-    </dependency>
-    <dependency>
-        <groupId>io.github.bonigarcia</groupId>
-        <artifactId>webdrivermanager</artifactId>
-        <version>5.9.2</version>
-    </dependency>
-</dependencies>
-
-Alternatively, you can use WebDriverManager to automate the setup of ChromeDriver in your pom.xml:
-
-<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
-<dependency>
-    <groupId>io.github.bonigarcia</groupId>
-    <artifactId>webdrivermanager</artifactId>
-    <version>5.9.2</version>
-</dependency>
-
-In the code, add:
-WebDriverManager.chromedriver().setup();
 
 4. **Set Up ChromeDriver**: Ensure that ChromeDriver is in your system’s PATH or specify its location in the script. For example:
    
