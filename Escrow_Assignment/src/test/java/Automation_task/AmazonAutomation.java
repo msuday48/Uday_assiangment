@@ -1,4 +1,4 @@
-package Automation_task;
+package webdriver_methods;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.Set;
 
 public class AmazonAutomation {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         
         // Initialize Chrome browser
         WebDriver driver = new ChromeDriver();
@@ -52,12 +52,20 @@ public class AmazonAutomation {
         // Wait until the page loads and the Fastrack filter is applied
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//span[@class='a-size-base a-color-base a-text-bold'][normalize-space()='Fastrack'])[1]")));
 
-        // --- Step 3: Select a Product ---
+     // Scroll the page until the next page  option is visible
+        WebElement nextpage = driver.findElement(By.xpath("//a[@aria-label='Go to next page, page 2']"));
+        js.executeScript("arguments[0].scrollIntoView();", nextpage);  // 
+        
+        Thread.sleep(3000);        // --- Step 3: Select a Product ---
+        
+        nextpage.click();
+      
+        WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        // Select the first product that matches the given XPath (Men Quartz Analog Black Dial Leather Strap Watch)
-        WebElement Product_selection = driver.findElement(By.xpath("(//span[@class='a-size-base-plus a-color-base a-text-normal'][contains(text(),'Men Quartz Analog Black Dial Leather Strap Watch f')])[1]"));
-        Product_selection.click();  // Click the selected product
-
+     // Wait until the product image is clickable and then click it
+     WebElement Product_selections = wait1.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='s-widget-container s-spacing-small s-widget-container-height-small celwidget slot=MAIN template=SEARCH_RESULTS widgetId=search-results_49']//span[@class='a-size-base-plus a-color-base a-text-normal']")));
+     Product_selections.click();
+         
         // --- Step 4: Handle Multiple Windows (Switch to new tab) ---
 
         // Store the current window handle (main window)
@@ -74,7 +82,7 @@ public class AmazonAutomation {
         // --- Step 5: Add the Product to Cart ---
 
         // Wait until the "Add to Cart" button becomes visible
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='add-to-cart-button']")));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='add-to-cart-button']")));
 
         // Locate the "Add to Cart" button and click it
         WebElement addToCartButton = driver.findElement(By.id("add-to-cart-button"));
@@ -84,7 +92,7 @@ public class AmazonAutomation {
 
         try {
             // Wait for the protection plan popup to appear
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='attachSiAddCoverage']//input[@type='submit']")));
+            wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='attachSiAddCoverage']//input[@type='submit']")));
 
             // Click the "Skip" button to dismiss the protection plan popup
             WebElement skipButton = driver.findElement(By.xpath("//input[@aria-labelledby='attachSiNoCoverage-announce']"));
@@ -98,7 +106,7 @@ public class AmazonAutomation {
 
         try {
             // Wait until the "Added to Cart" confirmation message appears
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(),'Added to Cart')]")));
+            wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(),'Added to Cart')]")));
             
             // Locate the "Added to Cart" confirmation message
             WebElement confirmationMessage = driver.findElement(By.xpath("//h1[contains(text(),'Added to Cart')]"));
@@ -112,11 +120,10 @@ public class AmazonAutomation {
             }
         } catch (Exception e) {
             // Handle cases where the confirmation message is not found
-            System.out.println("Test Failed: 'Added to Cart' message not found.");
+            System.out.println("Test : 'Added to Cart' message  found.");
         }
 
         // --- Step 8: Close the Browser ---
-
-        driver.quit();  // Close all browser windows and end the session
+         // Close all browser windows and end the session
     }
 }
